@@ -18,6 +18,9 @@ const App = () => {
   //ucuş verilerini al
   useEffect(() => {
     dispatch(getFlights());
+    setInterval(() => {
+      dispatch(getFlights());
+    }, 10000);
   }, []);
   return (
     <div>
@@ -37,7 +40,11 @@ const App = () => {
         </button>
       </div>
       {/* hangi görünümün ekrana basılacagını belirlemek için */}
-      {isMapView ? <MapView setDetailId={setDetailId} /> : <ListView />}
+      {isMapView ? (
+        <MapView setDetailId={setDetailId} />
+      ) : (
+        <ListView setDetailId={setDetailId} />
+      )}
       {/* detailId varsa ekrana modal bas  */}
       {detailId && (
         <Modal detailId={detailId} close={() => setDetailId(null)} />

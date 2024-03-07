@@ -7,6 +7,8 @@ axios
 bootstrap
 leaflet
 react-leaflet
+moment
+react-paginate
 
 # Api
 

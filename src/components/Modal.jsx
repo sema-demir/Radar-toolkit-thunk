@@ -2,10 +2,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { headerOpt } from "../constants";
 import formatDate from "../utils/formatDate";
-
+import { useDispatch } from "react-redux";
+import { setPath } from "../redux/slice/flightSlice";
 const Modal = ({ detailId, close }) => {
   //ucus detay verisini state te tuttuk
   const [d, setDetail] = useState(null);
+  const dispatch = useDispatch();
   useEffect(() => {
     // önceki uçuşun verilerini temizle
     setDetail(null);
@@ -17,6 +19,8 @@ const Modal = ({ detailId, close }) => {
         headerOpt
       )
       .then((res) => {
+        //modal içinden aldıgımız yol verisini store aktar
+        dispatch(setPath(res.data.trail));
         setDetail(res.data);
       })
       .catch((err) => console.log(err));

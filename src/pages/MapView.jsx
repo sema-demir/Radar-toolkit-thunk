@@ -1,11 +1,18 @@
 import "leaflet/dist/leaflet.css";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import { useSelector } from "react-redux";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  Polyline,
+} from "react-leaflet";
+import { useDispatch, useSelector } from "react-redux";
 import { icon } from "leaflet";
+import { clearPath } from "../redux/slice/flightSlice";
 
 const MapView = ({ setDetailId }) => {
-  const flightstate = useSelector((store) => store.flightReducer);
-
+  const flightState = useSelector((store) => store.flightReducer);
+  const dispatch = useDispatch();
   //Marker iconu olusturmak için
   const planeIcon = icon({
     iconUrl: "/plane-icon.png",
@@ -22,7 +29,7 @@ const MapView = ({ setDetailId }) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {/* ucus verisi kadar ekrana imlec bas */}
-      {flightstate.flights.map((flight) => (
+      {flightState.flights.map((flight) => (
         <Marker
           icon={planeIcon}
           key={flight.id}
@@ -39,10 +46,18 @@ const MapView = ({ setDetailId }) => {
               >
                 Detay
               </button>
+              {/* ekranda rota varsa temizleme buttonu koy */}
+              {flightState.path.length > 0 && (
+                <button onClick={() => dispatch(clearPath())}>
+                  Rotayı Temizle
+                </button>
+              )}
             </div>
           </Popup>
         </Marker>
       ))}
+      {/* ucagın rotasını cizgi seklinde belitmek için */}
+      <Polyline positions={flightState?.path} />
     </MapContainer>
   );
 };
