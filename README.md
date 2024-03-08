@@ -13,3 +13,7 @@ react-paginate
 # Api
 
 https://rapidapi.com/apidojo/api/flight-radar1
+
+<h3>Ekran görüntüsü</h3>
+
+![](ucus.gif)
